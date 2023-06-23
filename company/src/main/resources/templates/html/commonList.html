@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/layout}">
+
+<div layout:fragment="content" id="bbs">
+	<form action="commonListView" method="post" name="myForm">
+		<h1 style="text-align: center; margin-top: 20px;">내 근태확인</h1>
+		<div class="input-group input-group-lg"
+			style="padding-top: 50px; width: 500px; margin: 0 auto;">
+			<span class="input-group-text" id="inputGroup-sizing-lg">사번 입력</span>
+			<input type="text" class="form-control"
+				aria-label="Sizing example input"
+				aria-describedby="inputGroup-sizing-lg" name="empno"> <input
+				type="button" value="확인" onclick="checkEmpno();" />
+		</div>
+	</form>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">사번</th>
+				<th scope="col">이름</th>
+				<th scope="col">출근시간</th>
+				<th scope="col">퇴근시간</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:if="${#lists.size(commonList)} > 0"
+				 th:each="data:${commonList}">
+				<th scope="row" th:text="${data.empno}"></th>
+				<td th:text="${data.name}">Mark</td>
+				<td th:text="${data.come}">Otto</td>
+				<td th:text="${data.out}">@mdo</td>
+			</tr>
+			<tr th:if="${commonList} == null">
+				<th colspan="4" style="text-align: center;">사번을 입력하지 않으셨거나 잘못된
+					사번입니다.</th>
+			</tr>
+ 			<!-- <tr th:each="dataCount:${dataCount}">  -->
+				<td colspan="5" id="footer"><a th:utext="${pageIndexList}"></a></td>
+			<!-- </tr> -->
+		</tbody>
+	</table>
+</div>
+<th:block layout:fragment="script">
+	<script>
+		function checkEmpno() {
+			var f = document.myForm;
+			var str = f.empno.value;
+			str = str.trim();
+
+			if (!str) {
+				alert("사번을 입력하세요.");
+				f.empno.focus();
+				return;
+			}
+
+			f.submit();
+		}
+	</script>
+</th:block>
+</html>
